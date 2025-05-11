@@ -8,14 +8,13 @@
 #define MAX_QUOTE_LENGTH 128
 #define FILE_NAME "Quotes for Discord  - Sheet1.csv"
 
-// Escapes a string to make it CSV-safe (wraps in quotes, doubles inner quotes)
 void csv_escape(const char *input, char *output, size_t max_len) {
   size_t j = 0;
   output[j++] = '"';
   for (size_t i = 0; input[i] != '\0' && j < max_len - 3; ++i) {
     if (input[i] == '"') {
       if (j + 2 >= max_len - 1)
-        break; // prevent overflow
+        break;
       output[j++] = '"';
       output[j++] = '"';
     } else {
@@ -63,12 +62,12 @@ void display_random_quote() {
 }
 
 void add_quote() {
-  char quote_input[MAX_QUOTE_LENGTH + 2]; // +2 for newline and null terminator
+  char quote_input[MAX_QUOTE_LENGTH + 2];
   char source_input[MAX_LINE_LENGTH];
   char escaped_quote[MAX_LINE_LENGTH];
   char escaped_source[MAX_LINE_LENGTH];
 
-  getchar(); // Clear leftover newline
+  getchar();
 
   printf("Enter the quote (max %d characters):\n> ", MAX_QUOTE_LENGTH);
   fgets(quote_input, sizeof(quote_input), stdin);
@@ -93,7 +92,6 @@ void add_quote() {
     return;
   }
 
-  // Write 8 empty columns, then the source in the 9th column
   fprintf(file, "%s,,,,,,,,%s\n", escaped_quote, escaped_source);
   fclose(file);
   printf("Quote added successfully.\n");
